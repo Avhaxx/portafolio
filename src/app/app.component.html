@@ -223,7 +223,7 @@
               <li>Programa de estudios Fullstack de Oplesk. (6 meses)</li>
               <li>Certificación en Git por Oplesk.</li>
               <li>Curso Python sin fronteras: HTML, CSS, Flask y MySQL. </li>
-              <li>Inlges - intermedio/B1-B2</li>
+              <li>Ingles - intermedio/B1-B2</li>
             </ul>
           </div>
         </div>
@@ -258,13 +258,13 @@
     containers.forEach((container) => {
       if (isElementInViewport(container)) {
         if (!container.classList.contains('container-visible')) {
-          console.log('Contenedor visible:', container); // Depuración
+           // Depuración
           container.classList.add('container-visible');
           container.classList.remove('container-hidden');
         }
       } else {
         if (!container.classList.contains('container-hidden')) {
-          console.log('Contenedor no visible:', container); // Depuración
+           // Depuración
           container.classList.add('container-hidden');
           container.classList.remove('container-visible');
         }
