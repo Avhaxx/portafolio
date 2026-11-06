@@ -1,7 +1,423 @@
-/* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+/* ==========================================================================
+   Tipografías autoalojadas (subconjunto latino, licencia SIL OFL).
+   Los archivos viven en public/fonts y se precargan desde index.html para que
+   el texto no cambie de forma al cargarlas.
+   ========================================================================== */
 @font-face {
-    font-family: 'Rushford Printed';
-    src: url('/fonts/RushfordPrinted-MVnDe.otf') format('opentype'); /* Ruta a la fuente */
-    
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/instrument-serif-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/instrument-serif-latin-400-italic.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Geist Variable";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Geist Mono Variable";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-mono-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Respaldos con las métricas medidas de cada tipografía: al llegar la fuente real el texto
+   cambia de forma sin mover el diseño (CLS ≈ 0 incluso con red lenta). */
+@font-face {
+  font-family: "Instrument Serif Fallback";
+  src: local("Georgia");
+  size-adjust: 76.07%;
+  ascent-override: 130.15%;
+  descent-override: 40.75%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Geist Fallback";
+  src: local("Arial");
+  size-adjust: 102.18%;
+  ascent-override: 98.85%;
+  descent-override: 28.38%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Geist Mono Fallback";
+  src: local("Courier New");
+  size-adjust: 99.98%;
+  ascent-override: 101.02%;
+  descent-override: 29%;
+  line-gap-override: 0%;
+}
+
+/* ==========================================================================
+   Sistema de diseño "Observatorio"
+   Tokens: color, tipografía y movimiento. Todo se consume desde aquí.
+   ========================================================================== */
+@theme {
+  --color-void: #05060f;
+  --color-deep: #0a0d1f;
+  --color-ink: #eaf0ff;
+  --color-ink-2: #a3aecb;
+  --color-ink-3: #7f8bad;
+  --color-nebula: #6c8cff;
+  --color-nebula-2: #9b7bff;
+  --color-star: #ffd9a0;
+  --color-line: rgb(150 170 255 / 0.14);
+  --color-line-strong: rgb(150 170 255 / 0.28);
+  --color-glass: rgb(14 18 40 / 0.55);
+
+  --font-serif: "Instrument Serif", "Instrument Serif Fallback", ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: "Geist Variable", "Geist Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono Variable", "Geist Mono Fallback", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Base ---------- */
+html {
+  background: var(--color-void);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--color-ink);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+::selection {
+  background: rgb(108 140 255 / 0.35);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-nebula);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 400;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+main:focus {
+  outline: none;
+}
+
+/* Los hosts de página y sección se comportan como bloques. */
+app-home,
+app-hero,
+app-projects-section,
+app-stack-section,
+app-principles-section,
+app-timeline-section,
+app-contact-section,
+app-not-found {
+  display: block;
+}
+
+/* ---------- Layout ---------- */
+.container-page {
+  width: 100%;
+  max-width: 75rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 40rem) {
+  .container-page {
+    padding-inline: 2rem;
+  }
+}
+
+.section {
+  padding-block: 5rem;
+  scroll-margin-top: 4rem;
+}
+
+@media (min-width: 48rem) {
+  .section {
+    padding-block: 7rem;
+  }
+}
+
+/* ---------- Tipografía ---------- */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+}
+
+.display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+}
+
+.display em,
+.accent-italic {
+  font-style: italic;
+  background: linear-gradient(100deg, var(--color-nebula), var(--color-nebula-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-right: 0.06em;
+}
+
+.h1 {
+  font-size: clamp(2.75rem, 1.5rem + 5.2vw, 6rem);
+}
+
+.h2 {
+  font-size: clamp(2.125rem, 1.4rem + 3vw, 3.75rem);
+}
+
+.h3 {
+  font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem);
+}
+
+.lead {
+  font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem);
+  line-height: 1.55;
+  color: var(--color-ink-2);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* ---------- Superficies ---------- */
+.glass {
+  background: var(--color-glass);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid var(--color-line);
+}
+
+.hairline {
+  border: 0;
+  height: 1px;
+  background: var(--color-line);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--color-ink-2);
+  background: rgb(255 255 255 / 0.02);
+  white-space: nowrap;
+}
+
+.chip-lg {
+  padding: 0.5rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  color: var(--color-ink);
+}
+
+/* ---------- Botones ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  padding: 0 1.4rem;
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    background-color 0.25s,
+    border-color 0.25s,
+    box-shadow 0.35s;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  color: #060813;
+  background: linear-gradient(100deg, #8aa3ff, #b39bff);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.15) inset, 0 8px 28px -10px rgb(108 140 255 / 0.7);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.25) inset, 0 14px 34px -10px rgb(108 140 255 / 0.85);
+}
+
+.btn-ghost {
+  color: var(--color-ink);
+  border-color: var(--color-line-strong);
+  background: rgb(255 255 255 / 0.03);
+}
+
+.btn-ghost:hover {
+  border-color: rgb(150 170 255 / 0.55);
+  background: rgb(108 140 255 / 0.1);
+  transform: translateY(-2px);
+}
+
+/* ---------- Revelado al entrar en vista (directiva appReveal) ---------- */
+.reveal {
+  transition:
+    opacity 0.8s var(--ease-out-expo),
+    transform 0.8s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal:not(.is-revealed) {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* ---------- Entrada del hero ---------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.9s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* ---------- Brillo que sigue al cursor (directiva appGlow) ---------- */
+.glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    380px circle at var(--mx, 50%) var(--my, 0%),
+    rgb(139 163 255 / 0.65),
+    transparent 60%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glow:hover::before,
+.glow:focus-within::before {
+  opacity: 1;
+}
+
+/* ---------- Accesibilidad ---------- */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: var(--color-void);
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 0.25s var(--ease-out-expo);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal:not(.is-revealed) {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Botón "Pausar animaciones": detiene también los destellos decorativos. */
+html[data-motion="paused"] .animate-ping {
+  animation: none;
+}
+
+/* Resplandor de acento en paneles (usa los tokens de color). */
+.accent-glow {
+  background-image: radial-gradient(60% 140% at 100% 0%, rgb(108 140 255 / 0.2), transparent 60%);
+}

@@ -1,1 +1,2 @@
-/* /app.component.html 200
+# Las páginas prerenderizadas se sirven como archivos. Cualquier otra ruta recibe el shell de la app con estado 404.
+/*    /index.csr.html   404
