@@ -260,6 +260,8 @@ app-not-found {
 }
 
 .chip-lg {
+  max-width: 100%;
+  white-space: normal;
   padding: 0.5rem 1rem;
   font-family: var(--font-sans);
   font-size: 0.9375rem;

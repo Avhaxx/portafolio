@@ -8,6 +8,23 @@ import { SectionHeadingComponent } from '../../shared/section-heading.component'
 @Component({
   selector: 'app-contact-section',
   imports: [SectionHeadingComponent, RevealDirective, IconComponent],
+  styles: `
+    .email-link {
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 0.7rem + 3.1vw, 2.75rem);
+      line-height: 1.15;
+      color: var(--color-ink);
+      text-decoration: none;
+      overflow-wrap: anywhere;
+      background: linear-gradient(100deg, var(--color-nebula), var(--color-nebula-2)) 0 100% / 0% 1px no-repeat;
+      transition:
+        background-size 0.5s var(--ease-out-expo),
+        color 0.25s;
+    }
+    .email-link:hover {
+      background-size: 100% 1px;
+    }
+  `,
   template: `
     <section id="contacto" class="section container-page">
       <app-section-heading index="05" label="Contacto">
@@ -20,6 +37,16 @@ import { SectionHeadingComponent } from '../../shared/section-heading.component'
           técnicas.
         </p>
 
+        @if (profile.email) {
+          <div class="mt-9 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <a class="email-link" [href]="'mailto:' + profile.email">{{ profile.email }}</a>
+            <button type="button" class="btn btn-ghost" (click)="copyEmail()">
+              <app-icon [name]="copied() ? 'check' : 'copy'" />
+              {{ copied() ? 'Copiado' : 'Copiar' }}
+            </button>
+          </div>
+        }
+
         <div class="mt-8 flex flex-wrap gap-3">
           <a class="btn btn-primary" [href]="profile.linkedin" target="_blank" rel="noopener noreferrer">
             <app-icon name="linkedin" /> Escríbeme en LinkedIn
@@ -29,12 +56,6 @@ import { SectionHeadingComponent } from '../../shared/section-heading.component'
             <app-icon name="github" /> Ver GitHub
             <span class="sr-only">(se abre en una pestaña nueva)</span>
           </a>
-          @if (profile.email) {
-            <button type="button" class="btn btn-ghost" (click)="copyEmail()">
-              <app-icon [name]="copied() ? 'check' : 'copy'" />
-              {{ copied() ? 'Correo copiado' : profile.email }}
-            </button>
-          }
         </div>
         <p class="mt-4 text-sm text-ink-2" role="status">
           @if (copied()) {

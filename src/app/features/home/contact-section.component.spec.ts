@@ -32,6 +32,13 @@ describe('ContactSectionComponent', () => {
     expect(fixture.nativeElement.querySelector(`a[href="${PROFILE.github}"]`)).not.toBeNull();
   });
 
+  it('con correo configurado lo muestra como enlace mailto', () => {
+    create('hola@ejemplo.com');
+    const link = fixture.nativeElement.querySelector('a.email-link') as HTMLAnchorElement;
+    expect(link.textContent?.trim()).toBe('hola@ejemplo.com');
+    expect(link.getAttribute('href')).toBe('mailto:hola@ejemplo.com');
+  });
+
   it('copia el correo y confirma al usuario', async () => {
     const writeText = jasmine.createSpy('writeText').and.resolveTo();
     spyOnProperty(navigator, 'clipboard', 'get').and.returnValue({ writeText } as unknown as Clipboard);
@@ -42,7 +49,7 @@ describe('ContactSectionComponent', () => {
     fixture.detectChanges();
 
     expect(writeText).toHaveBeenCalledWith('hola@ejemplo.com');
-    expect(copyButton()!.textContent).toContain('Correo copiado');
+    expect(copyButton()!.textContent).toContain('Copiado');
     expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain('copiado');
   });
 
@@ -55,7 +62,7 @@ describe('ContactSectionComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    expect(copyButton()!.textContent).not.toContain('Correo copiado');
+    expect(copyButton()!.textContent).not.toContain('Copiado');
     expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain('No se pudo copiar');
     expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain('hola@ejemplo.com');
   });

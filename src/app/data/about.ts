@@ -7,7 +7,7 @@ export const STACK_GROUPS: readonly StackGroup[] = [
   },
   {
     title: 'Backend',
-    items: ['Laravel · PHP 8', 'APIs REST', 'Autenticación con tokens (JWT y Passport)', 'Colas y tareas en segundo plano'],
+    items: ['Laravel · PHP 8', 'APIs REST', 'Autenticación JWT y Passport', 'Colas y tareas en segundo plano'],
   },
   {
     title: 'Datos e infraestructura',
